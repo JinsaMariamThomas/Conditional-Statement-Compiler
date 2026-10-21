@@ -1,0 +1,1067 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>CodeWise | Conditional Statement Compiler</title>
+
+    <!-- Professional browser tab icon -->
+    <link rel="icon" type="image/svg+xml"
+        href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%238b9cff'/%3E%3Cpath d='M37 29 L17 50 L37 71 M63 29 L83 50 L63 71 M57 20 L43 80' fill='none' stroke='%230b1020' stroke-width='7' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+
+    <style>
+        :root {
+            color-scheme: dark;
+            --bg: #0b1020;
+            --panel: #141c2f;
+            --panel2: #0e1628;
+            --text: #edf2ff;
+            --muted: #a4b0c9;
+            --border: #293651;
+            --accent: #8b9cff;
+            --green: #54d6a0;
+            --red: #ff8585;
+            --shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
+        }
+
+        body.light {
+            color-scheme: light;
+            --bg: #f3f6fc;
+            --panel: #ffffff;
+            --panel2: #f5f7fc;
+            --text: #19233b;
+            --muted: #5d6880;
+            --border: #dce3ef;
+            --accent: #4258d6;
+            --green: #13845a;
+            --red: #c63232;
+            --shadow: 0 12px 32px rgba(32, 50, 90, 0.06);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            transition: background 0.2s, color 0.2s;
+        }
+
+        header {
+            padding: 17px 6%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            border-bottom: 1px solid var(--border);
+            background: var(--panel);
+        }
+
+        .brand-area {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .brand-icon {
+            width: 43px;
+            height: 43px;
+            border-radius: 12px;
+            display: grid;
+            place-items: center;
+            background: var(--accent);
+            color: #0b1020;
+            font-weight: 900;
+            font-size: 1.4rem;
+            flex-shrink: 0;
+        }
+
+        .brand {
+            font-size: 1.2rem;
+            font-weight: 800;
+            letter-spacing: -0.4px;
+        }
+
+        .brand span {
+            color: var(--accent);
+        }
+
+        .brand-subtitle {
+            color: var(--muted);
+            font-size: 0.76rem;
+            margin-top: -3px;
+        }
+
+        button {
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 11px 15px;
+            background: var(--panel);
+            color: var(--text);
+            cursor: pointer;
+            font-weight: 650;
+            font-size: 0.9rem;
+            transition: opacity 0.2s, transform 0.2s;
+        }
+
+        button:hover {
+            opacity: 0.85;
+            transform: translateY(-1px);
+        }
+
+        button:disabled {
+            opacity: 0.6;
+            cursor: wait;
+            transform: none;
+        }
+
+        .primary {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: #fff;
+        }
+
+        main {
+            max-width: 1250px;
+            margin: auto;
+            padding: 38px 22px 60px;
+        }
+
+        .hero {
+            max-width: 850px;
+            margin: 0 auto 28px;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.1rem, 5vw, 3.6rem);
+            line-height: 1.14;
+            letter-spacing: -1.5px;
+            margin: 0 0 18px;
+        }
+
+        .hero h1 span {
+            color: var(--accent);
+        }
+
+        .hero p {
+            max-width: 740px;
+            margin: 0 auto;
+            color: var(--muted);
+            font-size: 1.05rem;
+        }
+
+        .intro {
+            margin: 32px 0 44px;
+        }
+
+        .section-heading {
+            margin-bottom: 18px;
+        }
+
+        .section-heading h2 {
+            font-size: 1.55rem;
+            margin: 0 0 5px;
+        }
+
+        .section-heading p {
+            margin: 0;
+            color: var(--muted);
+        }
+
+        .intro-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 16px;
+        }
+
+        .intro-card {
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 15px;
+            padding: 21px;
+            box-shadow: var(--shadow);
+        }
+
+        .intro-icon {
+            width: 42px;
+            height: 42px;
+            display: grid;
+            place-items: center;
+            border-radius: 12px;
+            background: var(--panel2);
+            color: var(--accent);
+            font-size: 1.2rem;
+            font-weight: 800;
+            margin-bottom: 13px;
+        }
+
+        .intro-card h3 {
+            margin: 0 0 9px;
+            font-size: 1.03rem;
+        }
+
+        .intro-card p {
+            color: var(--muted);
+            font-size: 0.92rem;
+            margin: 0;
+        }
+
+        .try-section {
+            margin-bottom: 30px;
+            padding-top: 6px;
+        }
+
+        .try-heading {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .try-heading h2 {
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
+            margin: 0 0 7px;
+        }
+
+        .try-heading p {
+            color: var(--muted);
+            margin: 0;
+        }
+
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 13px;
+            margin: 25px 0 30px;
+        }
+
+        .step {
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 13px;
+            padding: 16px;
+        }
+
+        .step-number {
+            color: var(--accent);
+            font-weight: 800;
+            font-size: 0.78rem;
+            letter-spacing: 0.7px;
+        }
+
+        .step h3 {
+            font-size: 0.98rem;
+            margin: 6px 0;
+        }
+
+        .step p {
+            font-size: 0.86rem;
+            color: var(--muted);
+            margin: 0;
+        }
+
+        .workspace {
+            display: grid;
+            grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+            gap: 20px;
+            align-items: start;
+        }
+
+        .panel {
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 22px;
+            min-width: 0;
+            box-shadow: var(--shadow);
+        }
+
+        .panel h2 {
+            margin: 0 0 5px;
+            font-size: 1.25rem;
+        }
+
+        .muted {
+            color: var(--muted);
+        }
+
+        .panel-intro {
+            color: var(--muted);
+            font-size: 0.9rem;
+            margin: 0 0 17px;
+        }
+
+        label {
+            display: block;
+            font-weight: 700;
+            margin: 18px 0 8px;
+            font-size: 0.92rem;
+        }
+
+        textarea, input {
+            width: 100%;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 13px;
+            background: var(--panel2);
+            color: var(--text);
+            font-family: Consolas, "Courier New", monospace;
+            font-size: 0.94rem;
+            outline: none;
+        }
+
+        textarea:focus, input:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(139, 156, 255, 0.12);
+        }
+
+        textarea {
+            min-height: 285px;
+            resize: vertical;
+            line-height: 1.7;
+            tab-size: 4;
+        }
+
+        .help {
+            font-size: 0.83rem;
+            color: var(--muted);
+            margin: 7px 0;
+        }
+
+        .actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 9px;
+            margin-top: 17px;
+        }
+
+        .status {
+            margin-top: 15px;
+            padding: 11px 12px;
+            border-radius: 9px;
+            background: var(--panel2);
+            color: var(--muted);
+            font-size: 0.88rem;
+            overflow-wrap: anywhere;
+        }
+
+        .results-heading {
+            margin-bottom: 17px;
+        }
+
+        .results-heading p {
+            margin: 5px 0 0;
+            font-size: 0.88rem;
+        }
+
+        .results-grid {
+            display: grid;
+            gap: 13px;
+        }
+
+        .result-card {
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 16px;
+            min-width: 0;
+        }
+
+        .result-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .result-card h3 {
+            margin: 0 0 6px;
+            font-size: 0.97rem;
+            line-height: 1.5;
+        }
+
+        .result-card p {
+            color: var(--muted);
+            font-size: 0.86rem;
+            margin: 0 0 12px;
+        }
+
+        .result-summary {
+            font-size: 0.88rem;
+            overflow-wrap: anywhere;
+        }
+
+        .result-output {
+            background: var(--panel2);
+            border: 1px solid var(--border);
+            border-radius: 9px;
+            padding: 12px;
+            white-space: pre-wrap;
+            overflow-wrap: anywhere;
+            font: 0.83rem/1.6 Consolas, "Courier New", monospace;
+            max-height: 250px;
+            overflow-y: auto;
+            margin-top: 12px;
+            min-height: 42px;
+        }
+
+        .ok {
+            color: var(--green);
+            font-weight: 700;
+        }
+
+        .bad {
+            color: var(--red);
+            font-weight: 700;
+        }
+
+        .small-button {
+            font-size: 0.77rem;
+            padding: 7px 9px;
+            flex-shrink: 0;
+        }
+
+        .result-output[hidden] {
+            display: none;
+        }
+
+        footer {
+            border-top: 1px solid var(--border);
+            text-align: center;
+            color: var(--muted);
+            padding: 22px;
+            font-size: 0.85rem;
+        }
+
+        @media (max-width: 950px) {
+            .workspace {
+                grid-template-columns: 1fr;
+            }
+
+            .intro-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .intro-card:last-child {
+                grid-column: 1 / -1;
+            }
+        }
+
+        @media (max-width: 650px) {
+            header {
+                padding: 15px;
+            }
+
+            main {
+                padding: 28px 14px 42px;
+            }
+
+            .brand {
+                font-size: 1.05rem;
+            }
+
+            .brand-subtitle {
+                font-size: 0.7rem;
+            }
+
+            .brand-icon {
+                width: 38px;
+                height: 38px;
+            }
+
+            header button {
+                font-size: 0.77rem;
+                padding: 9px;
+            }
+
+            .intro-grid, .steps {
+                grid-template-columns: 1fr;
+            }
+
+            .intro-card:last-child {
+                grid-column: auto;
+            }
+
+            .panel {
+                padding: 16px;
+            }
+
+            textarea {
+                min-height: 240px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="brand-area">
+            <div class="brand-icon" aria-hidden="true">&lt;/&gt;</div>
+            <div>
+                <div class="brand">Code<span>Wise</span></div>
+                <div class="brand-subtitle">Conditional Statement Compiler</div>
+            </div>
+        </div>
+
+        <button id="themeButton" type="button" onclick="toggleTheme()">
+            Switch to Light Mode
+        </button>
+    </header>
+
+    <main>
+        <!-- Introduction at the beginning -->
+        <section class="hero">
+            <h1>Understand your code, <span>step by step.</span></h1>
+            <p>
+                Explore how a compiler analyzes conditional statements.
+                Learn what your code contains, how its structure is checked,
+                and how the compiler identifies possible problems.
+            </p>
+        </section>
+
+        <section class="intro">
+            <div class="section-heading">
+                <h2>Before you begin</h2>
+                <p>Three simple explanations to help you get started.</p>
+            </div>
+
+            <div class="intro-grid">
+                <article class="intro-card">
+                    <div class="intro-icon" aria-hidden="true">&lt;/&gt;</div>
+                    <h3>What is a compiler?</h3>
+                    <p>
+                        A compiler is a program that analyzes source code and
+                        checks whether it follows the rules of a programming
+                        language. It helps identify problems in the code.
+                    </p>
+                </article>
+
+                <article class="intro-card">
+                    <div class="intro-icon" aria-hidden="true">IF</div>
+                    <h3>What is a conditional statement?</h3>
+                    <p>
+                        A conditional statement lets a program choose what to
+                        do based on a condition. For example, if a number is
+                        greater than 10, do one thing; otherwise, do something else.
+                    </p>
+                </article>
+
+                <article class="intro-card">
+                    <div class="intro-icon" aria-hidden="true">i</div>
+                    <h3>Does this website run my program?</h3>
+                    <p>
+                        No. This educational project analyzes your code and
+                        reports its results. It checks the code but does not
+                        execute the entered program.
+                    </p>
+                </article>
+            </div>
+        </section>
+
+        <!-- Compiler workspace -->
+        <section class="try-section" id="try-compiler">
+            <div class="try-heading">
+                <h2>Try It Yourself</h2>
+                <p>
+                    Enter a conditional program or load the example to see
+                    how the compiler analyzes it.
+                </p>
+            </div>
+
+            <div class="steps">
+                <article class="step">
+                    <div class="step-number">STEP 01</div>
+                    <h3>Lexical Analysis</h3>
+                    <p>Recognizes the words, numbers, and symbols.</p>
+                </article>
+
+                <article class="step">
+                    <div class="step-number">STEP 02</div>
+                    <h3>Syntax Analysis</h3>
+                    <p>Checks whether the code structure follows the grammar.</p>
+                </article>
+
+                <article class="step">
+                    <div class="step-number">STEP 03</div>
+                    <h3>Abstract Syntax Tree</h3>
+                    <p>Builds a tree-like map of the program structure.</p>
+                </article>
+
+                <article class="step">
+                    <div class="step-number">STEP 04</div>
+                    <h3>Semantic Analysis</h3>
+                    <p>Checks whether variables are used correctly.</p>
+                </article>
+            </div>
+
+            <div class="workspace">
+                <section class="panel">
+                    <h2>Your Program</h2>
+                    <p class="panel-intro">
+                        Write your code below, or start with the example.
+                    </p>
+
+                    <label for="codeInput">Conditional statement code</label>
+                    <textarea id="codeInput" spellcheck="false"
+                        aria-label="Enter your conditional program"
+                        placeholder="Write your code here..."></textarea>
+
+                    <label for="predefinedVariables">
+                        Predefined Variables (variables already available)
+                    </label>
+                    <input id="predefinedVariables" type="text"
+                        placeholder="Example: a"
+                        aria-label="Predefined variables">
+
+                    <p class="help">
+                        Separate variable names with commas. For the example,
+                        enter <code>a</code> because its value is assumed to exist.
+                    </p>
+
+                    <div class="actions">
+                        <button type="button" onclick="loadExample()">
+                            Load Example
+                        </button>
+                        <button class="primary" id="compileButton"
+                            type="button" onclick="compileCode()">
+                            Analyze My Code
+                        </button>
+                        <button type="button" onclick="clearEditor()">
+                            Clear
+                        </button>
+                    </div>
+
+                    <div id="status" class="status" role="status" aria-live="polite">
+                        Ready. Load the example to begin.
+                    </div>
+                </section>
+
+                <section class="panel">
+                    <div class="results-heading">
+                        <h2>Compiler Results</h2>
+                        <p class="muted">
+                            Technical terms are explained in brackets.
+                            Expand the details when needed.
+                        </p>
+                    </div>
+
+                    <div class="results-grid">
+                        <article class="result-card">
+                            <div class="result-top">
+                                <div>
+                                    <h3>1. Lexical Analysis (Recognizing words and symbols)</h3>
+                                    <p>
+                                        Identifies keywords, variable names,
+                                        numbers, operators, and punctuation.
+                                    </p>
+                                </div>
+                                <button class="small-button" type="button"
+                                    onclick="toggleDetails('tokensDetails', this)">
+                                    Show technical details
+                                </button>
+                            </div>
+                            <div id="tokensSummary" class="result-summary muted">
+                                Waiting for your code.
+                            </div>
+                            <div id="tokensDetails" class="result-output" hidden>
+                                No results yet.
+                            </div>
+                        </article>
+
+                        <article class="result-card">
+                            <div class="result-top">
+                                <div>
+                                    <h3>2. Syntax Analysis (Checking code structure)</h3>
+                                    <p>
+                                        Checks whether brackets, statements,
+                                        and expressions follow the language grammar.
+                                    </p>
+                                </div>
+                                <button class="small-button" type="button"
+                                    onclick="toggleDetails('syntaxDetails', this)">
+                                    Show technical details
+                                </button>
+                            </div>
+                            <div id="syntaxSummary" class="result-summary muted">
+                                Not checked yet.
+                            </div>
+                            <div id="syntaxDetails" class="result-output" hidden>
+                                No results yet.
+                            </div>
+                        </article>
+
+                        <article class="result-card">
+                            <div class="result-top">
+                                <div>
+                                    <h3>3. Abstract Syntax Tree — AST (Program structure map)</h3>
+                                    <p>
+                                        Shows how the statements and expressions
+                                        in your program are organized.
+                                    </p>
+                                </div>
+                                <button class="small-button" type="button"
+                                    onclick="toggleDetails('astDetails', this)">
+                                    Show technical details
+                                </button>
+                            </div>
+                            <div id="astSummary" class="result-summary muted">
+                                Not checked yet.
+                            </div>
+                            <div id="astDetails" class="result-output" hidden>
+                                No results yet.
+                            </div>
+                        </article>
+
+                        <article class="result-card">
+                            <div class="result-top">
+                                <div>
+                                    <h3>4. Semantic Analysis (Checking meaning)</h3>
+                                    <p>
+                                        Checks whether variables are defined
+                                        or provided before they are used.
+                                    </p>
+                                </div>
+                                <button class="small-button" type="button"
+                                    onclick="toggleDetails('semanticDetails', this)">
+                                    Show technical details
+                                </button>
+                            </div>
+                            <div id="semanticSummary" class="result-summary muted">
+                                Not checked yet.
+                            </div>
+                            <div id="semanticDetails" class="result-output" hidden>
+                                No results yet.
+                            </div>
+                        </article>
+
+                        <article class="result-card">
+                            <div class="result-top">
+                                <div>
+                                    <h3>5. Symbol Table (List of variables)</h3>
+                                    <p>
+                                        Displays the variable names found
+                                        during the compiler's analysis.
+                                    </p>
+                                </div>
+                                <button class="small-button" type="button"
+                                    onclick="toggleDetails('symbolsDetails', this)">
+                                    Show technical details
+                                </button>
+                            </div>
+                            <div id="symbolsSummary" class="result-summary muted">
+                                No variables yet.
+                            </div>
+                            <div id="symbolsDetails" class="result-output" hidden>
+                                No results yet.
+                            </div>
+                        </article>
+
+                        <article class="result-card">
+                            <div class="result-top">
+                                <div>
+                                    <h3>6. Errors and Warnings (Problems to fix)</h3>
+                                    <p>
+                                        Explains the problems reported during
+                                        the compiler's analysis.
+                                    </p>
+                                </div>
+                                <button class="small-button" type="button"
+                                    onclick="toggleDetails('errorsDetails', this)">
+                                    Show technical details
+                                </button>
+                            </div>
+                            <div id="errorsSummary" class="result-summary muted">
+                                No checks performed yet.
+                            </div>
+                            <div id="errorsDetails" class="result-output" hidden>
+                                No results yet.
+                            </div>
+                        </article>
+                    </div>
+                </section>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        CodeWise | Conditional Statement Compiler
+    </footer>
+
+    <script>
+        const exampleCode = `if (a > 10) {
+    x = 5;
+} else {
+    x = 0;
+}`;
+
+        function setText(id, text) {
+            document.getElementById(id).textContent = text;
+        }
+
+        function toggleTheme() {
+            document.body.classList.toggle("light");
+
+            const isLight = document.body.classList.contains("light");
+
+            setText(
+                "themeButton",
+                isLight ? "Switch to Dark Mode" : "Switch to Light Mode"
+            );
+        }
+
+        function toggleDetails(id, button) {
+            const details = document.getElementById(id);
+            details.hidden = !details.hidden;
+
+            button.textContent = details.hidden
+                ? "Show technical details"
+                : "Hide technical details";
+        }
+
+        function loadExample() {
+            document.getElementById("codeInput").value = exampleCode;
+            document.getElementById("predefinedVariables").value = "a";
+
+            setText(
+                "status",
+                "Example loaded. Select Analyze My Code to begin."
+            );
+        }
+
+        function clearEditor() {
+            document.getElementById("codeInput").value = "";
+            document.getElementById("predefinedVariables").value = "";
+
+            const summaries = {
+                tokensSummary: "Waiting for your code.",
+                syntaxSummary: "Not checked yet.",
+                astSummary: "Not checked yet.",
+                semanticSummary: "Not checked yet.",
+                symbolsSummary: "No variables yet.",
+                errorsSummary: "No checks performed yet."
+            };
+
+            Object.entries(summaries).forEach(([id, message]) => {
+                const element = document.getElementById(id);
+                element.textContent = message;
+                element.className = "result-summary muted";
+            });
+
+            const detailsIds = [
+                "tokensDetails",
+                "syntaxDetails",
+                "astDetails",
+                "semanticDetails",
+                "symbolsDetails",
+                "errorsDetails"
+            ];
+
+            detailsIds.forEach(id => {
+                const element = document.getElementById(id);
+                element.textContent = "No results yet.";
+                element.hidden = true;
+            });
+
+            document.querySelectorAll(".small-button").forEach(button => {
+                button.textContent = "Show technical details";
+            });
+
+            setText("status", "Editor cleared. Enter code or load the example.");
+        }
+
+        function formatValue(value) {
+            if (value === null || value === undefined || value === "") {
+                return "No output was produced for this stage.";
+            }
+
+            if (typeof value === "string") {
+                return value;
+            }
+
+            return JSON.stringify(value, null, 2);
+        }
+
+        function showResult(summaryId, detailsId, summary, details, success) {
+            const summaryElement = document.getElementById(summaryId);
+
+            summaryElement.textContent = summary;
+            summaryElement.className =
+                "result-summary " + (success ? "ok" : "bad");
+
+            setText(detailsId, formatValue(details));
+        }
+
+        function showSymbols(symbols) {
+            if (!symbols || symbols.length === 0) {
+                setText(
+                    "symbolsSummary",
+                    "No variables were reported by semantic analysis."
+                );
+                setText("symbolsDetails", "No variables found.");
+                return;
+            }
+
+            setText(
+                "symbolsSummary",
+                symbols.length + " variable entr" +
+                (symbols.length === 1 ? "y" : "ies") + " found."
+            );
+
+            setText("symbolsDetails", formatValue(symbols));
+        }
+
+        async function compileCode() {
+            const code = document.getElementById("codeInput").value.trim();
+
+            const predefinedVariables =
+                document.getElementById("predefinedVariables").value.trim();
+
+            const button = document.getElementById("compileButton");
+
+            if (!code) {
+                setText(
+                    "status",
+                    "Please enter some code or select Load Example first."
+                );
+                return;
+            }
+
+            button.disabled = true;
+            button.textContent = "Analyzing...";
+            setText("status", "Analyzing your code. Please wait.");
+
+            try {
+                const response = await fetch("/api/compile", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        code: code,
+                        predefined_variables: predefinedVariables
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error(
+                        "The server returned HTTP " + response.status
+                    );
+                }
+
+                const data = await response.json();
+                const errors = Array.isArray(data.errors) ? data.errors : [];
+
+                const lexicalError = errors.some(
+                    error => error.stage === "Lexical Analysis"
+                );
+
+                const syntaxError = errors.some(
+                    error => error.stage === "Syntax Analysis"
+                );
+
+                const semanticError = errors.some(
+                    error => error.stage === "Semantic Analysis"
+                );
+
+                showResult(
+                    "tokensSummary",
+                    "tokensDetails",
+                    lexicalError
+                        ? "Some code parts could not be recognized."
+                        : "The compiler recognized the code parts.",
+                    data.tokens,
+                    !lexicalError
+                );
+
+                showResult(
+                    "syntaxSummary",
+                    "syntaxDetails",
+                    syntaxError
+                        ? "The code structure has a problem."
+                        : (data.syntax || "Syntax analysis completed."),
+                    data.syntax,
+                    !syntaxError
+                );
+
+                showResult(
+                    "astSummary",
+                    "astDetails",
+                    data.ast
+                        ? "The program structure was created."
+                        : "A program structure was not produced.",
+                    data.ast,
+                    Boolean(data.ast)
+                );
+
+                showResult(
+                    "semanticSummary",
+                    "semanticDetails",
+                    data.semantic ||
+                        (semanticError
+                            ? "The meaning check found a problem."
+                            : "Semantic analysis did not produce a result."),
+                    data.semantic,
+                    !semanticError && Boolean(data.semantic)
+                );
+
+                showSymbols(data.symbols || []);
+
+                if (errors.length === 0) {
+                    setText(
+                        "errorsSummary",
+                        "No errors were reported by the compiler."
+                    );
+                    document.getElementById("errorsSummary").className =
+                        "result-summary ok";
+
+                    setText("errorsDetails", "No errors reported.");
+                } else {
+                    const errorText = errors.map(error =>
+                        "[" + (error.stage || "Compiler") + "] " +
+                        (error.message || "Unspecified error")
+                    ).join("\n\n");
+
+                    setText(
+                        "errorsSummary",
+                        errors.length + " problem" +
+                        (errors.length === 1 ? "" : "s") +
+                        " reported. Open technical details to read more."
+                    );
+
+                    document.getElementById("errorsSummary").className =
+                        "result-summary bad";
+
+                    setText("errorsDetails", errorText);
+                }
+
+                setText(
+                    "status",
+                    errors.length === 0
+                        ? "Analysis complete. Review each stage's results."
+                        : "Analysis complete. Review the reported problems below."
+                );
+
+            } catch (error) {
+                setText(
+                    "status",
+                    "Could not contact the compiler backend. Make sure the Flask server is running. Details: " +
+                    error.message
+                );
+            } finally {
+                button.disabled = false;
+                button.textContent = "Analyze My Code";
+            }
+        }
+    </script>
+</body>
+</html>
